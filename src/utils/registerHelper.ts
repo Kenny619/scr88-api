@@ -2,8 +2,6 @@ import { JSDOM, ResourceLoader } from "jsdom";
 import userAgent from "./userAgents.js";
 import https from "node:https";
 
-type singleTypes = "text" | "link" | "node";
-type multiTypes = "texts" | "links" | "nodes";
 
 export function isURLalive(url: string): Promise<boolean> {
 	return new Promise((resolve, reject) => {
@@ -55,9 +53,9 @@ export function extractAll(type: multiTypes, dom: Document | string, selector: s
 		return { error: e };
 	}
 
-	//return empty array if querySelectorALl fails
+	//return error if querySelectorAll fails
 	if (!elems) {
-		return [];
+		return { error: "Input selector could not find any match" };
 	}
 
 	//Extracted string storage from the result of querySelectorAll.  Filter out null values.
@@ -98,11 +96,11 @@ export function extract(type: singleTypes, dom: string | Document, selector: str
 
 	switch (type) {
 		case "link":
-			return el.getAttribute("href") ?? "";
+			return el.getAttribute("href") ?? { error: "No href attribute found" };
 		case "text":
-			return el.textContent ?? "";
+			return el.textContent ?? { error: "No text content found" };
 		case "node":
-			return el.outerHTML ?? "";
+			return el.outerHTML ?? { error: "No matching node found" };
 	}
 }
 
