@@ -10,10 +10,10 @@ type result<T extends string | string[]> = { pass: true; result: T } | { pass: f
 
 //mysql
 const env = {
-	host: process.env.DB_HOST as string,
-	port: Number(process.env.DB_PORT),
-	user: process.env.DB_USER as string,
-	password: process.env.DB_PASSWORD as string,
+	host: process.env.MYSQL_HOST as string,
+	port: Number(process.env.MYSQL_PORT),
+	user: process.env.MYSQL_USER as string,
+	password: process.env.MYSQL_PASSWORD as string,
 	database: "scr88",
 	namedPlaceholders: true,
 };
@@ -34,8 +34,8 @@ export async function url(url: string): Promise<result<string>> {
 	return !validator.isURL(url)
 		? { pass: false, errMsg: "Invalid URL format" }
 		: (await isURLalive(url))
-		  ? { pass: true, result: url }
-		  : { pass: false, errMsg: "URL is not alive" };
+			? { pass: true, result: url }
+			: { pass: false, errMsg: "URL is not alive" };
 }
 
 export function testSelector<T extends extractTypes>(type: T, serializedDom: string, selector: string): result<string | string[]> {
@@ -44,8 +44,8 @@ export function testSelector<T extends extractTypes>(type: T, serializedDom: str
 		return !Array.isArray(extracted) && typeof extracted === "object"
 			? { pass: false, errMsg: extracted.error }
 			: extracted
-			  ? { pass: true, result: extracted }
-			  : { pass: false, errMsg: "Input selector could not find a match" };
+				? { pass: true, result: extracted }
+				: { pass: false, errMsg: "Input selector could not find a match" };
 	} catch (e) {
 		return { pass: false, errMsg: e };
 	}

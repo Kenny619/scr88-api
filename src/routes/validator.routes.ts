@@ -14,7 +14,7 @@ declare module "express-session" {
 const validator = express.Router();
 
 
-validator.post("/name", async (req, res) => res.send(await val.isNameValid(req.body.name)));
+validator.post("/name", async (req, res) => res.send(await val.isNameValid(req.body.input)));
 
 validator.post("/url", async (req, res) => {
     const vresult = await val.isUrlValid(req.body.input);

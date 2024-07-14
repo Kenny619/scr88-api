@@ -7,6 +7,10 @@
 		//type checking https://www.typescriptlang.org/tsconfig#Type_Checking_6248
 		"strict": true,
 
+		//typeorm -> https://typeorm.io/
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+
 		//Modules https://www.typescriptlang.org/tsconfig#Modules_6244
 		//    "moduleResolution": "node",
 		"module": "NodeNext",
@@ -14,7 +18,8 @@
 		"paths": {
 			"@/*": ["./src/*"],
 			"@utils/*": ["./src/utils/*"],
-			"@type/*": ["./src/types/*"]
+			"@type/*": ["./src/types/*"],
+			"@db/*": ["./src/db/*"]
 		},
 
 		//emit https://www.typescriptlang.org/tsconfig#Emit_6246

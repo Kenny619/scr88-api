@@ -1,10 +1,12 @@
 import express from "express";
 import cors from "cors";
 import session from "express-session";
+import "reflect-metadata";
 
 //---------routes
 import register from "./routes/register.routes.js";
 import validator from "./routes/validator.routes.js";
+import category from "./routes/category.routes.js";
 
 const app = express();
 app.use(express.json());
@@ -30,14 +32,15 @@ app.use(
 app.use(
 	cors({
 		credentials: true,
-		origin: "http://localhost:3001", //specify origin URL.  do not set it to true.
+		origin: "http://localhost:5173", //specify origin URL.  do not set it to true.
 	}),
 );
 
 //routing
 app.use("/validator", validator);
 app.use("/register", register);
+app.use("/category", category);
 //app.use("/review", review);
 //app.use("/generate", generate);
 
-app.listen(3001, () => console.log("Register API server running on port 3001"));
+app.listen(3333, () => console.log("Register API server running on port 3333"));

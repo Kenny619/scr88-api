@@ -4,8 +4,7 @@ let lastReturnedUserAgent: string;
 async function fetchUserAgents() {
 	try {
 		const res = await fetch("https://jnrbsn.github.io/user-agents/user-agents.json");
-		const uajson = await res.json();
-		return uajson;
+		return await res.json();
 	} catch (e) {
 		// Handle fetch error
 		console.error("Failed to fetch user agents:", e);
@@ -50,7 +49,7 @@ export default function userAgent(): string {
 	const userAgents = cachedUserAgents.filter((agent) => agent.includes(os[process.platform]));
 
 	if (userAgents.length > 1) {
-		let randomIndex;
+		let randomIndex: number;
 		do {
 			randomIndex = Math.floor(Math.random() * userAgents.length);
 		} while (userAgents[randomIndex] === lastReturnedUserAgent);

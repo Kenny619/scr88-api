@@ -1,30 +1,27 @@
 import { getSerializedDOM, isURLalive, extract, extractAll } from "../registerHelper.js";
-import mysql from "mysql2/promise";
 import { z } from "zod";
-//mysql
-const env = {
-    host: process.env.DB_HOST as string,
-    port: Number(process.env.DB_PORT),
-    user: process.env.DB_USER as string,
-    password: process.env.DB_PASSWORD as string,
-    database: "scr88",
-    namedPlaceholders: true,
-};
-const connection = await mysql.createConnection(env);
+import Scrapers from "@db/entity/scraper.js"
+import createAppDataSource from "@db/createDataSource.js"
+
+const db = await createAppDataSource([Scrapers]);
+const repo = db.getRepository(Scrapers)
+
 
 /** 
-    Checks if the registration name doesn't exist in DB and can be used.
-    @param name - The name to check
-    @returns { pass: true; result: string } if the name is valid and not already in use
-    @returns { pass: false; errMsg: string } if the name is invalid or already in use
-*/
-export async function isNameValid(name: string): Promise<prevalResult<string>> {
-    try {
-        const [result, field] = await connection.query("SELECT id FROM scrapers WHERE name = :name", { name: name });
-        return (result as []).length > 0 ? { pass: false, errMsg: "This name is already in use" } : { pass: true, result: "Valid name" };
-    } catch (e) {
-        return { pass: false, errMsg: e };
-    }
+ Checks if the registration name doesn't exist in DB and can be used.
+ @param name - The name to check
+ @returns { pass: true; result: string } if the name is valid and not already in use
+ @returns { pass: false; errMsg: string } if the name is invalid or already in use
+ */
+export async function isNameValid(input: string): Promise<prevalResult<string>> {
+
+    const result = await repo.findOneBy({
+        name: input
+    })
+    console.log(input, result);
+
+    //await AppDataSource.destroy();
+    return (result !== null) ? { pass: false, errMsg: "This name is already in use" } : { pass: true, result: "Valid name" };
 }
 
 /** 
