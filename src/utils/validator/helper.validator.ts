@@ -1,4 +1,4 @@
-import { getSerializedDOM, isURLalive, extract, extractAll } from "../registerHelper.js";
+import { getSerializedDOM, isURLalive, extract, extractAll } from "../helper.jsdom.js";
 import { z } from "zod";
 import Scrapers from "@db/entity/scraper.js"
 import createAppDataSource from "@db/createDataSource.js"
