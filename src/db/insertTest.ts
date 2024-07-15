@@ -1,26 +1,35 @@
 import AppDataSource from "./createDataSource.js";
 import Scrapers from "./entity/scraper.js";
-//import "reflect-metadata";
 
+const input = {
+    name: "secondtest",
+    category: "Jlores",
+    entryUrl: "https://www.google.com",
+    rootUrl: "https://www.google.com",
+    language: "JP",
+    siteType: "links",
+    nextPageType: "last",
+    lastUrlSelector: "a.next",
+    lastPageNumberRegExp: "\/d.*",
+    tagFiltering: false,
+    tagCollect: true,
+    indexLinkSelector: "a.articles",
+    articleTitleSelector: "h2.title",
+    articleBodySelector: "div.body",
+    articleTagSelector: "div.tags",
+    frequency: "weekly",
+    status: "suspended"
+};
 
-const scraper = new Scrapers()
-scraper.name = "test"
-scraper.entryUrl = "https://www.google.com"
-scraper.rootUrl = "https://www.google.com"
-scraper.language = "JP"
-scraper.siteType = "links"
-scraper.nextPageType = "last"
-scraper.lastUrlSelector = "a.next"
-scraper.lastPageNumberRegExp = "\/d.*"
-scraper.tagFiltering = false
-scraper.tagCollect = true
-scraper.indexLinkSelector = "a.articles"
-scraper.articleTitleSelector = "h2.title"
-scraper.articleBodySelector = "div.body"
-scraper.articleTagSelector = "div.tags"
-scraper.frequency = "weekly"
-scraper.status = "suspended"
+const scraper = new Scrapers();
+Object.assign(scraper, input);
 
-await AppDataSource.manager.save(scraper);
-console.log(`inserted id:${scraper.id}`);
-await AppDataSource.destroy();
+try {
+    const db = await AppDataSource([Scrapers]);
+    await db.manager.save(scraper);
+    console.log(`inserted id:${scraper.id}`);
+    await db.destroy();
+
+} catch (error) {
+    console.error(error);
+}

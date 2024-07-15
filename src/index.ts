@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import session from "express-session";
 import "reflect-metadata";
-
+import cookieParser from "cookie-parser";
 //---------routes
 import register from "./routes/register.routes.js";
 import validator from "./routes/validator.routes.js";
@@ -10,16 +10,16 @@ import category from "./routes/category.routes.js";
 
 const app = express();
 app.use(express.json());
-//app.use(cookieParser());
+app.use(cookieParser());
 //app.set("trust proxy", 1);
 app.use(
 	session({
-		name: "scr88-register",
+		name: "scr88-validator",
 		secret: "scr88register",
 		resave: true,
 		saveUninitialized: true,
 		cookie: {
-			path: "/register",
+			path: "/validator",
 			httpOnly: true,
 			domain: "localhost",
 			secure: false,
