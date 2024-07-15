@@ -68,8 +68,8 @@ class Scrapers {
     @Column({ type: 'enum', enum: ['daily', 'weekly', 'monthly'], nullable: false })
     frequency: string;
 
-    @Column({ type: 'enum', enum: ['active', 'suspended'], nullable: false })
-    status: string;
+    @Column({ type: 'enum', enum: ['active', 'suspended'], nullable: false, default: "suspended" })
+    status?: string;
 
     @Column({ type: 'timestamp', nullable: true })
     lastRun?: Date;
